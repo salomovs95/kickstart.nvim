@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -276,10 +276,10 @@ require('lazy').setup({
     opts = {
       signs = {
         add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        change = { text = '•' },
+        delete = { text = '×' },
+        topdelete = { text = '×' },
+        changedelete = { text = '×' },
       },
     },
   },
@@ -436,6 +436,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>e', ':Neotree<cr>', { desc = 'Open Neotree' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -683,6 +684,40 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+
+        jdtls = {
+          cmd = {
+            'jdtls',
+            '-configuration',
+            '/usr/local/lib/java/jdtls-1.47.0/config_linux',
+            --'/home/runner/.cache/jdtls/config',
+            '-data',
+            '/home/salomovs/.cache/jdtls/workspace',
+          },
+          filetypes = { 'java' },
+
+          --handlers = {
+          --  ['language/status'] = <function 1>,
+          --  ['textDocument/codeAction'] = <function 2>,
+          --  ['textDocument/rename'] = <function 3>,
+          --  ['workspace/applyEdit'] = <function 4>
+          --}
+
+          init_options = {
+            jvm_args = {},
+            workspace = '/home/salomovs/.cache/jdtls/workspace',
+          },
+          root_markers = {
+            '.git',
+            'build.gradle',
+            'build.gradle.kts',
+            'build.xml',
+            'pom.xml',
+            'settings.gradle',
+            'settings.gradle.kts',
+            'Dockerfile',
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -941,10 +976,10 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    --main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'java', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -976,8 +1011,8 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
